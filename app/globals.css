@@ -9,7 +9,8 @@
   --cx-white: #ffffff;
   --cx-soft: #fbfaf8;
   --cx-shadow: 0 26px 80px rgba(17, 17, 17, 0.08);
-  --cx-font: "Aptos", "Segoe UI", Arial, sans-serif;
+  --cx-font: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text",
+    "Helvetica Neue", "Segoe UI", Arial, sans-serif;
 }
 
 * {
@@ -61,7 +62,6 @@ a:focus-visible {
 .brand {
   display: flex;
   align-items: center;
-  gap: 18px;
 }
 
 .brand-logo {
@@ -70,7 +70,6 @@ a:focus-visible {
   object-fit: contain;
 }
 
-.brand span,
 .header-meta span,
 .eyebrow,
 .payable-pill span,
@@ -80,7 +79,7 @@ a:focus-visible {
 .footer a {
   color: var(--cx-gray);
   font-size: 11px;
-  font-weight: 750;
+  font-weight: 600;
   letter-spacing: 0.12em;
   text-transform: uppercase;
 }
@@ -99,6 +98,7 @@ a:focus-visible {
   border-radius: 999px;
   padding: 7px 12px;
   font-size: 12px;
+  font-weight: 600;
 }
 
 .invoice-shell {
@@ -142,6 +142,7 @@ h1 {
   margin-bottom: 28px;
   color: var(--cx-black);
   font-size: clamp(38px, 5vw, 66px);
+  font-weight: 600;
   line-height: 0.98;
   letter-spacing: 0;
 }
@@ -149,6 +150,7 @@ h1 {
 h2 {
   margin-bottom: 0;
   font-size: clamp(22px, 3vw, 32px);
+  font-weight: 600;
   line-height: 1.12;
   letter-spacing: 0;
 }
@@ -177,13 +179,13 @@ h2 {
   margin-bottom: 7px;
   color: var(--cx-gray);
   font-size: 12px;
-  font-weight: 750;
+  font-weight: 600;
 }
 
 .client-meta dd {
   margin: 0;
   font-size: 16px;
-  font-weight: 760;
+  font-weight: 600;
   line-height: 1.35;
 }
 
@@ -200,7 +202,7 @@ h2 {
   color: var(--cx-white);
   padding: 7px 11px;
   font-size: 11px;
-  font-weight: 750;
+  font-weight: 600;
 }
 
 .status-card strong {
@@ -208,6 +210,7 @@ h2 {
   margin-bottom: 32px;
   color: var(--cx-orange-dark);
   font-size: 18px;
+  font-weight: 600;
 }
 
 .status-card p {
@@ -220,6 +223,7 @@ h2 {
   display: block;
   color: var(--cx-black);
   font-size: clamp(32px, 4vw, 42px);
+  font-weight: 600;
   line-height: 1;
 }
 
@@ -264,7 +268,7 @@ h2 {
   background: var(--cx-black);
   color: var(--cx-white);
   font-size: 11px;
-  font-weight: 800;
+  font-weight: 600;
   letter-spacing: 0.12em;
   text-transform: uppercase;
 }
@@ -288,6 +292,7 @@ h2 {
 .group-row strong {
   color: var(--cx-orange-dark);
   font-size: 14px;
+  font-weight: 600;
   letter-spacing: 0.04em;
   text-transform: uppercase;
 }
@@ -307,7 +312,7 @@ h2 {
   margin-top: 5px;
   color: var(--cx-gray);
   font-size: 12px;
-  font-weight: 700;
+  font-weight: 500;
 }
 
 .item-row strong,
@@ -317,7 +322,7 @@ h2 {
 
 .subtotal-row {
   background: #fffaf6;
-  font-weight: 800;
+  font-weight: 600;
 }
 
 .total-row {
@@ -328,12 +333,13 @@ h2 {
 
 .total-row span {
   font-size: 18px;
-  font-weight: 800;
+  font-weight: 600;
 }
 
 .total-row strong {
   color: var(--cx-orange);
   font-size: clamp(26px, 4vw, 36px);
+  font-weight: 600;
 }
 
 .payable-pill {
@@ -367,7 +373,7 @@ h2 {
   color: var(--cx-gray);
   cursor: pointer;
   font-size: 14px;
-  font-weight: 800;
+  font-weight: 600;
 }
 
 .segmented-control button.active {
@@ -432,7 +438,7 @@ h2 {
   cursor: pointer;
   padding: 13px 16px;
   font-size: 13px;
-  font-weight: 850;
+  font-weight: 600;
 }
 
 .copy-action button:hover {
@@ -443,7 +449,7 @@ h2 {
   min-height: 16px;
   color: var(--cx-orange-dark);
   font-size: 12px;
-  font-weight: 800;
+  font-weight: 600;
 }
 
 .crypto-layout {
@@ -480,6 +486,7 @@ h2 {
   display: block;
   margin-top: 7px;
   font-size: clamp(26px, 4vw, 36px);
+  font-weight: 600;
 }
 
 .warning {
@@ -595,7 +602,6 @@ h2 {
     width: 156px;
   }
 
-  .brand span,
   .header-meta span,
   .eyebrow,
   .payable-pill span,

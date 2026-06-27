@@ -83,7 +83,6 @@ export default function InvoicePage() {
             className="brand-logo"
             priority
           />
-          <span>Бутиковые корпоративные решения</span>
         </div>
         <div className="header-meta">
           <span>Инвойс</span>
