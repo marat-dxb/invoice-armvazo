@@ -1,0 +1,9 @@
+node_modules
+.next
+out
+.vercel
+.env*
+next-dev.log
+next-dev.err.log
+npm-debug.log*
+tsconfig.tsbuildinfo
