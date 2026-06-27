@@ -8,10 +8,13 @@ type PaymentMethod = "bank" | "crypto";
 type InvoiceItem = {
   description: string;
   amount: number;
+  note?: string;
 };
 
-const totalAed = 85115;
 const exchangeRate = 3.66;
+const consultxMonthlyUsdt = 2000;
+const consultxMonths = 3;
+const consultxServicesAed = consultxMonthlyUsdt * consultxMonths * exchangeRate;
 const iban = "AE100030011805839920001";
 const walletAddress = "TPZSgfU6GQgMjSUbJePsPePmhLPZbDfXe2";
 
@@ -25,7 +28,11 @@ const payrollItems: InvoiceItem[] = [
 
 const expenseItems: InvoiceItem[] = [
   { description: "Домен armvazo.com", amount: 250 },
-  { description: "Оплата услуг ConsultX - April, May, June", amount: 7320 },
+  {
+    description: "Оплата услуг ConsultX - April, May, June",
+    amount: consultxServicesAed,
+    note: "3 месяца × 2,000 USDT",
+  },
   {
     description:
       "Оплата Минтруда по изменению зарплат Арама Халикяна и Златы Чернядевой",
@@ -33,6 +40,10 @@ const expenseItems: InvoiceItem[] = [
   },
   { description: "Налоговая декларация - Corporate Tax", amount: 1580 },
 ];
+
+const payrollSubtotal = payrollItems.reduce((sum, item) => sum + item.amount, 0);
+const expensesSubtotal = expenseItems.reduce((sum, item) => sum + item.amount, 0);
+const totalAed = payrollSubtotal + expensesSubtotal;
 
 const formatAed = (amount: number) =>
   new Intl.NumberFormat("en-AE", {
@@ -52,7 +63,7 @@ export default function InvoicePage() {
   const cryptoAmount = useMemo(() => totalAed / exchangeRate, []);
   const currentDate = useMemo(
     () =>
-      new Intl.DateTimeFormat("en-GB", {
+      new Intl.DateTimeFormat("ru-RU", {
         day: "2-digit",
         month: "long",
         year: "numeric",
@@ -72,35 +83,35 @@ export default function InvoicePage() {
             className="brand-logo"
             priority
           />
-          <span>Boutique Corporate Solutions</span>
+          <span>Бутиковые корпоративные решения</span>
         </div>
         <div className="header-meta">
-          <span>Invoice</span>
-          <strong>Payment Pending</strong>
+          <span>Инвойс</span>
+          <strong>Ожидает оплаты</strong>
         </div>
       </header>
 
-      <section className="invoice-shell" aria-label="Invoice payment request">
+      <section className="invoice-shell" aria-label="Инвойс и реквизиты оплаты">
         <div className="invoice-card">
           <div className="invoice-hero">
             <div>
               <p className="eyebrow">ConsultX Corporate Solutions</p>
-              <h1>Invoice / Payment Request</h1>
+              <h1>Инвойс / Запрос на оплату</h1>
               <dl className="client-meta">
                 <div>
-                  <dt>Client</dt>
+                  <dt>Клиент</dt>
                   <dd>Armvazo Management Consultancies LLC</dd>
                 </div>
                 <div>
-                  <dt>Date</dt>
+                  <dt>Дата</dt>
                   <dd>{currentDate}</dd>
                 </div>
               </dl>
             </div>
             <div className="status-card">
-              <span>Status</span>
-              <strong>Payment Pending</strong>
-              <p>Total Payable</p>
+              <span>Статус</span>
+              <strong>Ожидает оплаты</strong>
+              <p>Итого к оплате</p>
               <b>{formatAed(totalAed)}</b>
             </div>
           </div>
@@ -110,18 +121,18 @@ export default function InvoicePage() {
           <section className="payment-section" aria-labelledby="payment-heading">
             <div className="section-heading">
               <div>
-                <p className="eyebrow">Payment Method</p>
-                <h2 id="payment-heading">Select preferred payment option</h2>
+                <p className="eyebrow">Способ оплаты</p>
+                <h2 id="payment-heading">Выберите удобный вариант оплаты</h2>
               </div>
               <div className="payable-pill">
                 {paymentMethod === "bank" ? (
                   <>
-                    <span>AED Total</span>
+                    <span>Сумма в AED</span>
                     <strong>{formatAed(totalAed)}</strong>
                   </>
                 ) : (
                   <>
-                    <span>Amount to Pay</span>
+                    <span>Сумма к оплате</span>
                     <strong>USDT {formatUsdt(cryptoAmount)}</strong>
                   </>
                 )}
@@ -145,8 +156,8 @@ export default function InvoicePage() {
       <footer className="footer">
         <strong>ConsultX Corporate Solutions</strong>
         <p>
-          Structured business support, operational clarity, and corporate
-          coordination.
+          Структурная бизнес-поддержка, операционная ясность и корпоративная
+          координация.
         </p>
         <a href="mailto:info@consultx.ae">info@consultx.ae</a>
       </footer>
@@ -155,29 +166,26 @@ export default function InvoicePage() {
 }
 
 function InvoiceTable() {
-  const payrollSubtotal = payrollItems.reduce((sum, item) => sum + item.amount, 0);
-  const expensesSubtotal = expenseItems.reduce((sum, item) => sum + item.amount, 0);
-
   return (
     <section className="invoice-table-section" aria-labelledby="invoice-heading">
       <div className="section-heading">
         <div>
-          <p className="eyebrow">Invoice Details</p>
-          <h2 id="invoice-heading">Items and totals</h2>
+          <p className="eyebrow">Детали инвойса</p>
+          <h2 id="invoice-heading">Позиции и итоговые суммы</h2>
         </div>
       </div>
 
-      <div className="invoice-table" role="table" aria-label="Invoice items">
+      <div className="invoice-table" role="table" aria-label="Позиции инвойса">
         <div className="table-head" role="row">
-          <span role="columnheader">Description</span>
-          <span role="columnheader">Amount</span>
+          <span role="columnheader">Описание</span>
+          <span role="columnheader">Сумма</span>
         </div>
         <InvoiceGroup title="Зарплатный фонд" items={payrollItems} />
-        <SubtotalRow label="Subtotal Payroll" amount={payrollSubtotal} />
+        <SubtotalRow label="Итого зарплатный фонд" amount={payrollSubtotal} />
         <InvoiceGroup title="Расходы" items={expenseItems} />
-        <SubtotalRow label="Subtotal Expenses" amount={expensesSubtotal} />
+        <SubtotalRow label="Итого расходы" amount={expensesSubtotal} />
         <div className="total-row" role="row">
-          <span role="cell">Total Payable</span>
+          <span role="cell">Итого к оплате</span>
           <strong role="cell">{formatAed(totalAed)}</strong>
         </div>
       </div>
@@ -194,7 +202,10 @@ function InvoiceGroup({ title, items }: { title: string; items: InvoiceItem[] })
       </div>
       {items.map((item) => (
         <div className="item-row" role="row" key={item.description}>
-          <span role="cell">{item.description}</span>
+          <span role="cell">
+            {item.description}
+            {item.note && <small>{item.note}</small>}
+          </span>
           <strong role="cell">{formatAed(item.amount)}</strong>
         </div>
       ))}
@@ -219,7 +230,7 @@ function PaymentMethodSelector({
   onChange: (value: PaymentMethod) => void;
 }) {
   return (
-    <div className="segmented-control" role="tablist" aria-label="Payment method">
+    <div className="segmented-control" role="tablist" aria-label="Способ оплаты">
       <button
         type="button"
         role="tab"
@@ -227,7 +238,7 @@ function PaymentMethodSelector({
         className={value === "bank" ? "active" : ""}
         onClick={() => onChange("bank")}
       >
-        AED Bank Transfer
+        Банковский перевод AED
       </button>
       <button
         type="button"
@@ -236,7 +247,7 @@ function PaymentMethodSelector({
         className={value === "crypto" ? "active" : ""}
         onClick={() => onChange("crypto")}
       >
-        Cryptocurrency
+        Криптовалюта
       </button>
     </div>
   );
@@ -246,17 +257,17 @@ function BankDetails() {
   return (
     <div className="payment-card">
       <div className="details-grid">
-        <Detail label="Bank" value="ADCB - Abu Dhabi Commercial Bank" />
-        <Detail label="Account Name" value="Marat Ohanyan" />
-        <Detail label="Account Number" value="11805839920001" />
-        <Detail label="Currency" value="AED" />
+        <Detail label="Банк" value="ADCB - Abu Dhabi Commercial Bank" />
+        <Detail label="Имя счета" value="Marat Ohanyan" />
+        <Detail label="Номер счета" value="11805839920001" />
+        <Detail label="Валюта" value="AED" />
       </div>
       <div className="copy-panel">
         <div>
           <span>IBAN</span>
           <strong>{iban}</strong>
         </div>
-        <CopyButton value={iban} label="Copy IBAN" />
+        <CopyButton value={iban} label="Скопировать IBAN" />
       </div>
     </div>
   );
@@ -269,7 +280,7 @@ function CryptoDetails({ cryptoAmount }: { cryptoAmount: number }) {
         <div className="qr-frame">
           <Image
             src="/crypto-qr.jpeg"
-            alt="TRC20 wallet QR code"
+            alt="QR-код кошелька TRC20"
             width={220}
             height={220}
             className="qr-image"
@@ -277,24 +288,24 @@ function CryptoDetails({ cryptoAmount }: { cryptoAmount: number }) {
         </div>
         <div className="crypto-content">
           <div className="crypto-total">
-            <span>Amount to Pay</span>
+            <span>Сумма к оплате</span>
             <strong>USDT {formatUsdt(cryptoAmount)}</strong>
           </div>
           <div className="details-grid">
-            <Detail label="Total Payable in AED" value={formatAed(totalAed)} />
-            <Detail label="Network" value="TRC20" />
-            <Detail label="Exchange Rate" value="1 USDT = AED 3.66" />
+            <Detail label="Итого к оплате в AED" value={formatAed(totalAed)} />
+            <Detail label="Сеть" value="TRC20" />
+            <Detail label="Курс обмена" value="1 USDT = AED 3.66" />
           </div>
           <div className="copy-panel">
             <div>
-              <span>Wallet Address</span>
+              <span>Адрес кошелька</span>
               <strong>{walletAddress}</strong>
             </div>
-            <CopyButton value={walletAddress} label="Copy Wallet Address" />
+            <CopyButton value={walletAddress} label="Скопировать адрес кошелька" />
           </div>
           <p className="warning">
-            Please ensure that the transfer is made strictly via TRC20 network.
-            Transfers through other networks may not be recoverable.
+            Пожалуйста, убедитесь, что перевод выполняется строго через сеть
+            TRC20. Переводы через другие сети могут быть невосстановимыми.
           </p>
         </div>
       </div>
@@ -325,7 +336,7 @@ function CopyButton({ value, label }: { value: string; label: string }) {
       <button type="button" onClick={copyValue}>
         {label}
       </button>
-      <span aria-live="polite">{copied ? "Copied" : ""}</span>
+      <span aria-live="polite">{copied ? "Скопировано" : ""}</span>
     </div>
   );
 }

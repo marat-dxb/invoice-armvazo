@@ -302,6 +302,14 @@ h2 {
   line-height: 1.4;
 }
 
+.item-row small {
+  display: block;
+  margin-top: 5px;
+  color: var(--cx-gray);
+  font-size: 12px;
+  font-weight: 700;
+}
+
 .item-row strong,
 .subtotal-row strong {
   white-space: nowrap;
